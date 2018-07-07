@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="static/css/style.css" />
+  <meta charset="utf-8">
+</head>
+<body>
+  <h1>&ldquo;Play that sample&rdquo;</h1>
+  {% for sample_url, sample_name in samples %}
+    <button type="button" id="{{sample_url}}">{{sample_name}}</button>
+  {% endfor %}
+
+  <script src="static/js/jquery.min.js"></script>
+  <script>
+    $( document ).ready(function() {
+      function play(){
+        var url = $(this).attr('id');
+          $.ajax({
+              type: "GET",
+              url: '/play/'+url,
+          })
+      }
+
+      $('button').click(play)
+    });
+
+  </script>
+</body>
+</html>
