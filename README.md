@@ -1,6 +1,7 @@
-# mucaa
+# Samples
 
 ## Installation
+pipenv is broken atm, sorry :/
 
 One command to rule them all: `pipenv install --dev`
 
