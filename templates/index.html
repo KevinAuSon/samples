@@ -6,6 +6,12 @@
 </head>
 <body>
   <h1>&ldquo;Play that sample&rdquo;</h1>
+  <form action = "upload" method = "POST" 
+     enctype = "multipart/form-data">
+     <input type = "file" name = "file" />
+     <input type = "submit" value="Add your sample, can be long..."/>
+  </form>
+
   {% for sample_url, sample_name in samples %}
     <button type="button" id="{{sample_url}}">{{sample_name}}</button>
   {% endfor %}
