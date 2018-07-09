@@ -2,7 +2,7 @@ import os
 import vlc
 import glob
 import random
-
+import subprocess
 from flask import Flask, render_template, jsonify, request, send_from_directory, redirect, url_for
 from werkzeug import secure_filename
 
@@ -12,7 +12,6 @@ url_audio = 'static/audio'
 
 @app.route("/")
 def index():
-
   samples = glob.glob(os.path.join(url_audio, '*.mp3'))
   data = []
   for sample in samples:
@@ -28,7 +27,7 @@ def play(sample):
   sample = random.choice(samples)
 
   p = vlc.MediaPlayer(sample)
-  p.audio_set_volume(100)
+  # p.audio_set_volume(100)
   p.play()
 
   return ('', 204)
@@ -46,4 +45,4 @@ def serve_static(path):
     return send_from_directory('static/', path)
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=80)
+    app.run(debug=True, host='0.0.0.0')#, port=80)
