@@ -3,7 +3,7 @@ import vlc
 import glob
 import random
 
-from flask import Flask, render_template, jsonify, request, send_from_directory
+from flask import Flask, render_template, jsonify, request, send_from_directory, redirect, url_for
 from werkzeug import secure_filename
 
 app = Flask(__name__, static_url_path='/static/')
@@ -38,8 +38,8 @@ def upload_file():
     f = request.files['file']
     f_name = os.path.join(url_audio, secure_filename(f.filename))
     f.save(f_name)
-    
-    return index()
+
+    return redirect('/')
 
 @app.route('/static/<path:path>')
 def serve_static(path):

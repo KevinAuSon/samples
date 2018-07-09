@@ -11,7 +11,9 @@
      <input type = "file" name = "file" />
      <input type = "submit" value="Add your sample, can be long..."/>
   </form>
-
+ <br>
+ <br>
+ <br>
   {% for sample_url, sample_name in samples %}
     <button type="button" id="{{sample_url}}">{{sample_name}}</button>
   {% endfor %}
