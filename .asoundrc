@@ -3,6 +3,7 @@ pcm_slave.slavej {
   channels 2
   rate 44100
 }
+
 pcm.plugj {
   type plug
   slave slavej
