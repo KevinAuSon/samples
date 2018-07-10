@@ -1,42 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" type="text/css" href="static/css/style.css" />
   <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <title>Sample</title>
 </head>
+
 <body>
-  <h1>&ldquo;Play that sample&rdquo;</h1>
-  <form action = "upload" method = "POST" 
-     enctype = "multipart/form-data">
-     <input type = "file" name = "file" />
-     <input type = "submit" value="Add a new one, you can have a cuppa while waiting for the upload to finish (even on MMU eduroam!)"/>
-  </form>
- <br>
- <br>
- <br>
-  {% for category, items_list in samples.items() %}
-    <div>
-      <h4> {{ category }} </h4>
-        {% for sample_url, sample_name in items_list %}
-          <button type="button" id="{{sample_url}}">{{sample_name}}</button>
+    <div class="container">
+      <h1 class="jumbotron-heading">&ldquo;Play that sample&rdquo;</h1>
+      <p class="lead">Have fun!</p>
+
+      <h3>Upload Sound</h3>
+      <form action="upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file"/>
+        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload</button>
+      </form>
+    <br>
+    <h3>Control Player</h3>
+    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Stop</button>
+
+    <br>
+    <h3>Sounds</h3>
+    <div class="row">
+        {% for category, items_list in samples.items() %}
+        <div class="col-4"><h4>{{ category }}</h4>
+            <div class="btn-group-vertical">
+                <br>{% for sample_url, sample_name in items_list %}
+                <button type="button" class="btn btn-primary" id="{{sample_url}}">
+                    <span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span> {{sample_name}}
+                </button>
+                {% endfor %}
+            </div>
+        </div>
         {% endfor %}
     </div>
-  {% endfor %}
+</div>
 
-  <script src="static/js/jquery.min.js"></script>
-  <script>
+<script src="static/js/jquery.min.js"></script>
+<script>
     $( document ).ready(function() {
       function play(){
-        var url = $(this).attr('id');
-          $.ajax({
-              type: "GET",
-              url: '/play?sample='+url,
-          })
-      }
+        var url=$(this).attr('id');
+        $.ajax({
+          type: "GET",
+          url: '/play?sample='+url,
+      })
+    }
+    $('button').click(play)
+});
+</script>
 
-      $('button').click(play)
-    });
-
-  </script>
 </body>
 </html>
