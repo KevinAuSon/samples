@@ -14,8 +14,13 @@
  <br>
  <br>
  <br>
-  {% for sample_url, sample_name in samples %}
-    <button type="button" id="{{sample_url}}">{{sample_name}}</button>
+  {% for category, items_list in samples.items() %}
+    <div>
+      <h4> {{ category }} </h4>
+        {% for sample_url, sample_name in items_list %}
+          <button type="button" id="{{sample_url}}">{{sample_name}}</button>
+        {% endfor %}
+    </div>
   {% endfor %}
 
   <script src="static/js/jquery.min.js"></script>
