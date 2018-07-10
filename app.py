@@ -12,17 +12,19 @@ url_audio = 'static/audio'
 
 @app.route("/")
 def index():
-  samples = glob.glob(os.path.join(url_audio, '*.mp3'))
+  samples = glob.iglob(os.path.join(url_audio, '**', '*.mp3'), recursive=True)
   data = []
   for sample in samples:
+    url = os.path.join(*(sample.split('/')[2:]))
     sample = os.path.splitext(os.path.basename(sample))[0]
-    data.append((sample, sample.title()))
+    data.append((url[:-4], sample.title()))
 
   return render_template("index.html", samples=data)
 
 
-@app.route("/play/<sample>")
-def play(sample):
+@app.route("/play")
+def play():
+  sample = request.args.get('sample')
   samples = glob.glob('static/audio/{}.mp3'.format(sample))
   sample = random.choice(samples)
 
