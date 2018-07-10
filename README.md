@@ -6,9 +6,11 @@ pipenv is broken atm, sorry :/
 One command to rule them all: `pipenv install --dev`
 
 ## Usage
+You want to install vlc as the server is using an api to run the samples with it.
+`sudo apt install vlc` on a debian system.
 
-Log into the pipenv shell and run the flask debug server:
+Then 
 ```bash
-pipenv shell
-python app.py
+pip3 install flask python-vlc
+python3 app.py
 ```
