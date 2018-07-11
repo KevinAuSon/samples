@@ -65,4 +65,25 @@ $( document ).ready(function() {
       })
     }
     $('.shuffle').click(category_shuffle)
+
+    function epi_init() {
+      console.log('test')
+      var i = 0;
+
+      function epilepsy () {
+        var colors = ['red', 'blue', 'pink', 'yellow', 'purple', 'green', 'black', 'cyan', '#808000', 'GreenYellow', 'MediumVioletRed ']
+        
+        if(i >= 7)
+          i = 0;
+         i++;
+
+        $('body').css("background-color", colors[i])
+      }
+      var interval = setInterval(epilepsy, 400);
+      setTimeout(function() {
+          clearInterval(interval)
+      }, 200000);
+    }
+    
+    $('#NyanCat').click(epi_init)
 });
