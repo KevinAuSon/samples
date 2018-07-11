@@ -19,7 +19,7 @@ def index():
     path = sample.split('/')[2:]
     url = os.path.join(*path)[:-4]
     sample = os.path.splitext(os.path.basename(sample))[0]
-    value = (url, sample.title())
+    value = (url, sample)
     key = len(path) == 2 and path[0] or 'Others'
 
     values = data.get(key, [])
