@@ -10,6 +10,7 @@ app = Flask(__name__, static_url_path='/static/')
 
 url_audio = 'static/audio'
 vlc_sample = None
+volume_sample = 100
 
 @app.route("/")
 def index():
@@ -31,8 +32,17 @@ def index():
 
 @app.route("/play")
 def play():
-  sample = request.args.get('sample')
+  sample = request.args.get('sample', '')
   samples = glob.glob('static/audio/{}.mp3'.format(sample))
+  
+  # If it was a directory (random)
+  if not samples:
+    if sample == 'Others':
+      samples = glob.glob('static/audio/*.mp3')
+    else:
+      samples = glob.iglob(os.path.join(url_audio, sample, '**', '*.mp3'), recursive=True)
+      samples = list(samples)
+
   sample = random.choice(samples)
 
   global vlc_sample
@@ -41,7 +51,7 @@ def play():
     vlc_sample.stop()
 
   vlc_sample = vlc.MediaPlayer(sample)
-  # p.audio_set_volume(100)
+  vlc_sample.audio_set_volume(volume_sample)
   vlc_sample.play()
 
   return ('', 204)
@@ -55,6 +65,23 @@ def stop():
     vlc_sample.stop()
     vlc_sample = None
     
+  return ('', 204)
+
+@app.route("/volume")
+def volume():
+  global volume_sample
+  action = request.args.get('action', '')
+  
+  if action == 'up':
+    volume_sample = min(100, volume_sample + 20)
+  elif action == 'down':
+    volume_sample = max(0,   volume_sample - 20)
+  elif action == 'mute':
+    volume_sample = 0
+
+  if vlc_sample:
+    vlc_sample.audio_set_volume(volume_sample)
+
   return ('', 204)
 
 @app.route("/reboot")
