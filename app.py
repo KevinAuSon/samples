@@ -9,6 +9,7 @@ from werkzeug import secure_filename
 app = Flask(__name__, static_url_path='/static/')
 
 url_audio = 'static/audio'
+vlc_sample = None
 
 @app.route("/")
 def index():
@@ -34,11 +35,28 @@ def play():
   samples = glob.glob('static/audio/{}.mp3'.format(sample))
   sample = random.choice(samples)
 
-  p = vlc.MediaPlayer(sample)
+  global vlc_sample
+
+  if vlc_sample:
+    vlc_sample.stop()
+
+  vlc_sample = vlc.MediaPlayer(sample)
   # p.audio_set_volume(100)
-  p.play()
+  vlc_sample.play()
 
   return ('', 204)
+
+
+@app.route("/stop")
+def stop():
+  global vlc_sample
+
+  if vlc_sample:
+    vlc_sample.stop()
+    vlc_sample = None
+    
+  return ('', 204)
+
 
 @app.route('/upload', methods = ['POST'])
 def upload_file():

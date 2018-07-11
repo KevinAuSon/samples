@@ -21,7 +21,7 @@
       </form>
     <br>
     <h3>Control Player</h3>
-    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Stop</button>
+    <button type="submit" class="btn btn-danger" id="stop" ><span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Stop</button>
 
     <br>
     <h3>Sounds</h3>
@@ -30,7 +30,7 @@
         <div class="col-4"><h4>{{ category }}</h4>
             <div class="btn-group-vertical">
                 <br>{% for sample_url, sample_name in items_list %}
-                <button type="button" class="btn btn-primary" id="{{sample_url}}">
+                <button type="button" class="btn btn-primary sample-btn" id="{{sample_url}}">
                     <span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span> {{sample_name}}
                 </button>
                 {% endfor %}
@@ -45,12 +45,21 @@
     $( document ).ready(function() {
       function play(){
         var url=$(this).attr('id');
+
         $.ajax({
           type: "GET",
           url: '/play?sample='+url,
       })
     }
-    $('button').click(play)
+    $('.sample-btn').click(play)
+
+    function stop(){
+        $.ajax({
+          type: "GET",
+          url: '/stop',
+      })
+    }
+    $('#stop').click(stop)
 });
 </script>
 
