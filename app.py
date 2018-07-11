@@ -57,6 +57,10 @@ def stop():
     
   return ('', 204)
 
+@app.route("/reboot")
+def reboot():
+  os.system('sudo reboot')
+
 
 @app.route('/upload', methods = ['POST'])
 def upload_file():
